@@ -14,46 +14,42 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public final class Calc {
+final class Calc {
 	
 	private static final BigDecimal density = new BigDecimal(7.85);
-	public static final BigDecimal bil = new BigDecimal(1000000);
+	static final BigDecimal bil = new BigDecimal(1000000);
 	//private static final MathContext mc00 = new MathContext(6);
  
-	// Метод для заполнения массива.
+	// РњРµС‚РѕРґ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ РјР°СЃСЃРёРІР°.
 	@SuppressWarnings("resource")
-	public static void fillArrayList (ArrayList<String> list, File file){
+	static void fillArrayList(ArrayList<String> list, File file){
 		list.clear();
 		BufferedReader in = null;
         try {   
             in = new BufferedReader(new FileReader(file));
             String str;
-            //Заполнение массива myList строками из файла TT
+            //Р—Р°РїРѕР»РЅРµРЅРёРµ РјР°СЃСЃРёРІР° myList СЃС‚СЂРѕРєР°РјРё РёР· С„Р°Р№Р»Р° TT
             while ((str = in.readLine()) != null) {
                 list.add(str);
             }  
-        } 
-        catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        } 
-        catch (IOException e2) {
+        } catch (IOException e2) {
             e2.printStackTrace();
         } 
 	}
 	
 	
-	// Метод для заполнения текстового поля
-	public static void setContentToJTextArea (ArrayList<String> list, JTextArea area){
+	// РњРµС‚РѕРґ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ С‚РµРєСЃС‚РѕРІРѕРіРѕ РїРѕР»СЏ
+	static void setContentToJTextArea(ArrayList<String> list, JTextArea area){
 		area.setText("");;
-		for (int i = 0; i < list.size(); i++){
-			area.append((String)list.get(i));
+		for (String aList : list) {
+			area.append((String) aList);
 			area.append("\n");
 		}
 		
 	}
 	
 	
-	// Заполнение Плошадь всего
+	// Р—Р°РїРѕР»РЅРµРЅРёРµ РџР»РѕС€Р°РґСЊ РІСЃРµРіРѕ
 
     /*When a MathContext object is supplied with a precision setting of 0 (for example, MathContext.UNLIMITED), arithmetic operations are exact, as are 
      * the arithmetic methods which take no MathContext object. (This is the only behavior that was supported in releases prior to 5.)
@@ -67,12 +63,12 @@ public final class Calc {
 
 	where 2 is precision and RoundingMode.HALF_UP is rounding mode*/
 
-	public static void fillTotalArea (ArrayList<String> list, JTextField field){
+	static void fillTotalArea(ArrayList<String> list, JTextField field){
 		String totalArea = null;
 		BigDecimal area = null;
 		String temp = null;
 		for (int i = 0; i < list.size(); i++){
-			if (list.get(i).startsWith("#32 Расход материала")){
+			if (list.get(i).startsWith("#32 Р Р°СЃС…РѕРґ РјР°С‚РµСЂРёР°Р»Р°")){
 				temp = list.get(i+1).replace(",", ".");
 				area = (((new BigDecimal(temp).divide(density,10,RoundingMode.HALF_UP)).divide(getThickness(list),10,RoundingMode.HALF_UP)).multiply(bil));
 				totalArea = (area.setScale(0, RoundingMode.HALF_UP)).toString();
@@ -81,12 +77,12 @@ public final class Calc {
 		field.setText(totalArea);
 	}
 	
-	public static void fillDetailArea (ArrayList<String> list, JTextField field){
+	static void fillDetailArea(ArrayList<String> list, JTextField field){
 		String totalArea = null;
 		BigDecimal area = null;
 		String temp = null;
 		for (int i = 0; i < list.size(); i++){
-			if (list.get(i).startsWith("#23 Детали")){
+			if (list.get(i).startsWith("#23 Р”РµС‚Р°Р»Рё")){
 				temp = list.get(i+1).replace(",", ".");
 				area = (((new BigDecimal(temp).divide(density,10,RoundingMode.HALF_UP)).divide(getThickness(list),10,RoundingMode.HALF_UP)).multiply(bil));
 				totalArea = (area.setScale(0, RoundingMode.HALF_UP)).toString();
@@ -95,29 +91,29 @@ public final class Calc {
 		field.setText(totalArea);
 	}
 	
-	public static BigDecimal getThickness (ArrayList<String> list){
+	private static BigDecimal getThickness(ArrayList<String> list){
 		String temp = null;
 		for (int i = 0; i < list.size(); i++){
-			if (list.get(i).startsWith("#3 Габариты листа")){
+			if (list.get(i).startsWith("#3 Р“Р°Р±Р°СЂРёС‚С‹ Р»РёСЃС‚Р°")){
 				temp = list.get(i+3).replace(",", ".");
 				//System.out.println(temp);
 			}	
 		}
-		BigDecimal thickness = new BigDecimal(temp);
-		return thickness;
+		assert temp != null;
+		return new BigDecimal(temp);
 	}
 	
-	public static void fillLabel (ArrayList<String> list, JLabel label, String str){
+	static void fillLabel(ArrayList<String> list, JLabel label, String str){
 		label.setText(str + list.get(1));
 		
 	}
 	
-	// Периметр реза
-	public static void fillСutLength (ArrayList<String> list, JTextField field){
+	// РџРµСЂРёРјРµС‚СЂ СЂРµР·Р°
+	static void fillCutLength(ArrayList<String> list, JTextField field){
 		String cutLength = null;
 		String temp = null;
 		for (int i = 0; i < list.size(); i++){
-			if (list.get(i).startsWith("#9 Резать")){
+			if (list.get(i).startsWith("#9 Р РµР·Р°С‚СЊ")){
 				temp = list.get(i+1).replace(",", ".");
 				cutLength = ((new BigDecimal(temp).multiply(new BigDecimal(1000)).setScale(3, RoundingMode.HALF_UP))).toString();
 			}
@@ -125,13 +121,13 @@ public final class Calc {
 		field.setText(cutLength);
 	}
 	
-	//Площадь лома
-	public static void fillScrapArea (ArrayList<String> list, JTextField field){
+	//РџР»РѕС‰Р°РґСЊ Р»РѕРјР°
+	static void fillScrapArea(ArrayList<String> list, JTextField field){
 		String totalArea = null;
 		BigDecimal area = null;
 		String temp = null;
 		for (int i = 0; i < list.size(); i++){
-			if (list.get(i).startsWith("#25 Отход")){
+			if (list.get(i).startsWith("#25 РћС‚С…РѕРґ")){
 				temp = list.get(i+1).replace(",", ".");
 				area = (((new BigDecimal(temp).divide(density,10,RoundingMode.HALF_UP)).divide(getThickness(list),10,RoundingMode.HALF_UP)).multiply(bil));
 				totalArea = (area.setScale(0, RoundingMode.HALF_UP)).toString();
@@ -140,13 +136,13 @@ public final class Calc {
 		field.setText(totalArea);
 	}
 	
-	// Площадь угара
-	public static void fillWasteArea (ArrayList<String> list, JTextField field){
+	// РџР»РѕС‰Р°РґСЊ СѓРіР°СЂР°
+	static void fillWasteArea(ArrayList<String> list, JTextField field){
 		String totalArea = null;
 		BigDecimal area = null;
 		String temp = null;
 		for (int i = 0; i < list.size(); i++){
-			if (list.get(i).startsWith("#27 Сгоревший металл")){
+			if (list.get(i).startsWith("#27 РЎРіРѕСЂРµРІС€РёР№ РјРµС‚Р°Р»Р»")){
 				temp = list.get(i+1).replace(",", ".");
 				area = (((new BigDecimal(temp).divide(density,10,RoundingMode.HALF_UP)).divide(getThickness(list),10,RoundingMode.HALF_UP)).multiply(bil));
 				totalArea = (area.setScale(0, RoundingMode.HALF_UP)).toString();
@@ -155,22 +151,22 @@ public final class Calc {
 		field.setText(totalArea);
 	}
 	
-	//Количество пробивок
-	public static void fillPierceNumber (ArrayList<String> list, JTextField field){
+	//РљРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕР±РёРІРѕРє
+	static void fillPierceNumber(ArrayList<String> list, JTextField field){
 		String pierceNumber = null;
 		for (int i = 0; i < list.size(); i++){
-			if (list.get(i).startsWith("#10 Ввод")){
+			if (list.get(i).startsWith("#10 Р’РІРѕРґ")){
 				pierceNumber = list.get(i+1);
 			}
 		}
 		field.setText(pierceNumber);
 	}
 	
-	//Общее время
-	public static void setTotalTime (ArrayList<String> list, JTextField field){
+	//РћР±С‰РµРµ РІСЂРµРјСЏ
+	static void setTotalTime(ArrayList<String> list, JTextField field){
 		String time = null;
 		for (int i = 0; i < list.size(); i++){
-			if (list.get(i).startsWith("#31 ОБЩЕЕ ВРЕМЯ")){
+			if (list.get(i).startsWith("#31 РћР‘Р©Р•Р• Р’Р Р•РњРЇ")){
 				time = list.get(i+1) +":" + list.get(i+2) +":" + list.get(i+3);
 			}
 		}

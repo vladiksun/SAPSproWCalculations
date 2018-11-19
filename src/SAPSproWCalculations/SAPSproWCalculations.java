@@ -10,32 +10,17 @@ import java.awt.BorderLayout;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
 import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
-import javax.swing.border.CompoundBorder;
 import javax.swing.UIManager;
-import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.DefaultEditorKit;
-import javax.swing.text.JTextComponent;
 
 import java.awt.Color;
 
-import org.eclipse.wb.swing.FocusTraversalOnArray;
-
-import SAPSproWCalculations.FileDrop;
-
-import java.awt.Component;
-
 import javax.swing.JButton;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -45,29 +30,20 @@ import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JToggleButton;
-import javax.swing.SwingUtilities;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
 
-import java.awt.SystemColor;
 import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
-import javax.swing.Box;
 
 public class SAPSproWCalculations {
 
@@ -303,10 +279,10 @@ public class SAPSproWCalculations {
 		calculateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (areaBeforetextField.getText().equals(""))
-	                 JOptionPane.showMessageDialog(null,"Необходимо ввести площадь ДО", "Warning",JOptionPane.WARNING_MESSAGE);
+	                 JOptionPane.showMessageDialog(null,"РќРµРѕР±С…РѕРґРёРјРѕ РІРІРµСЃС‚Рё РїР»РѕС‰Р°РґСЊ Р”Рћ", "Warning",JOptionPane.WARNING_MESSAGE);
 	             
 	            else if (areaAftertextField.getText().equals("")){
-	                 JOptionPane.showMessageDialog(null,"Необходимо ввести площадь ПОСЛЕ", "Warning",JOptionPane.WARNING_MESSAGE);
+	                 JOptionPane.showMessageDialog(null,"РќРµРѕР±С…РѕРґРёРјРѕ РІРІРµСЃС‚Рё РїР»РѕС‰Р°РґСЊ РџРћРЎР›Р•", "Warning",JOptionPane.WARNING_MESSAGE);
 	             }
 	             
 	            else {
@@ -487,19 +463,10 @@ public class SAPSproWCalculations {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		
 		} 
-		catch (UnsupportedLookAndFeelException e) {
+		catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
        // handle exception
 		}
-		catch (ClassNotFoundException e) {
-       // handle exception
-		}
-		catch (InstantiationException e) {
-       // handle exception
-		}
-		catch (IllegalAccessException e) {
-       // handle exception
-		}
-	
+
 	}
 	
 	
@@ -520,17 +487,17 @@ public class SAPSproWCalculations {
 	    }
 	}
 	
-	public void processing(){
+	private void processing(){
 		
-		// Запись массива
+		// Р—Р°РїРёСЃСЊ РјР°СЃСЃРёРІР°
 		Calc.fillArrayList(myList, filesource);
 		
-		//Проверка формата файла ECO
+		//РџСЂРѕРІРµСЂРєР° С„РѕСЂРјР°С‚Р° С„Р°Р№Р»Р° ECO
 		
 		if (!myList.get(0).startsWith("#1"))
-			JOptionPane.showMessageDialog(null,"Файл не соответсвует формату файла ECO", "Warning",JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Р¤Р°Р№Р» РЅРµ СЃРѕРѕС‚РІРµС‚СЃРІСѓРµС‚ С„РѕСЂРјР°С‚Сѓ С„Р°Р№Р»Р° ECO", "Warning",JOptionPane.WARNING_MESSAGE);
 		else {
-			Calc.fillLabel(myList, lblNewLabel, "Роскрой № ");
+			Calc.fillLabel(myList, lblNewLabel, "Р РѕСЃРєСЂРѕР№ в„– ");
 			
 			Calc.setContentToJTextArea(myList, textArea);
 			
@@ -542,7 +509,7 @@ public class SAPSproWCalculations {
 			
 			Calc.fillWasteArea(myList, wasteAreaTextField_1);
 			
-			Calc.fillСutLength(myList, cutLengthtextField);
+			Calc.fillCutLength(myList, cutLengthtextField);
 			
 			Calc.fillPierceNumber(myList, pierceNumberTextField);
 			

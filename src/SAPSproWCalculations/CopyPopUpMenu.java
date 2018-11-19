@@ -4,10 +4,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.text.DefaultEditorKit;
 
-public class CopyPopUpMenu extends JPopupMenu {
+class CopyPopUpMenu extends JPopupMenu {
 
-	JMenuItem copyItem;
-    public CopyPopUpMenu(){
+	private JMenuItem copyItem;
+
+    CopyPopUpMenu(){
         copyItem = new JMenuItem(new DefaultEditorKit.CopyAction());  
         add(copyItem);
     }
